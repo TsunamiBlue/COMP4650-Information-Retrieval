@@ -3,7 +3,7 @@ import os
 
 from inverted_index import InvertedIndex
 from preprocessor import Preprocessor
-from similarity_measures import TF_Similarity, TFIDF_Similarity
+from similarity_measures import TF_Similarity, TFIDF_Similarity, BM25_Similarity
 
 parser = argparse.ArgumentParser(description='Run all queries on the inverted index.')
 parser.add_argument('--new', default=True, help='If True then build a new index from scratch. If False then attempt to'
@@ -15,7 +15,8 @@ index = InvertedIndex(Preprocessor())
 index.index_directory(os.path.join('gov', 'documents'), use_stored_index=(not args.new))
 
 sim_name_to_class = {'TF': TF_Similarity,
-                     'TFIDF': TFIDF_Similarity}
+                     'TFIDF': TFIDF_Similarity,
+                     'BM25': BM25_Similarity}
 
 sim = sim_name_to_class[args.sim]
 index.set_similarity(sim)

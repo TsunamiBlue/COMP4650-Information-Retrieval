@@ -73,10 +73,45 @@ class TFIDF_Similarity(CosineSimilarity):
             if df != 0:
                 token_idf[token] = log(docNum / df, 2)
 
-
+        # the score of each doc
         for token, query_term_frequency in query.items():
             for doc, document_term_frequency in self.postings.token_to_doc_counts[token].items():
                 if self.doc_to_norm[doc] != 0:
                     doc_to_score[doc] += query_term_frequency * document_term_frequency * (token_idf[token] ** 2)/self.doc_to_norm[doc]
         # for eky in doc_to_score.keys():
         #     print(doc_to_score[eky])
+
+
+
+class BM25_Similarity(CosineSimilarity):
+
+    def set_document_norms(self):
+        for doc, token_counts in self.postings.doc_to_token_counts.items():
+            self.doc_to_norm[doc] = sum([tf for tf in token_counts.values()])
+
+    def get_scores(self, doc_to_score, query):
+
+        k1 = 2
+        b = 0.75
+        docNum = len(self.postings.doc_to_token_counts.keys())
+        # # average document token length
+        # for doc,token_frequency_default_dict in self.postings.doc_to_token_counts.items():
+        #     doc_len[doc] = sum([dl for dl in token_frequency_default_dict.values()])
+        # avgdl = sum([l for l in doc_len.values()])/docNum
+
+        # idf for each token
+
+        avgdl = sum([norm for norm in self.doc_to_norm.values()])/docNum
+
+        token_idf = defaultdict(lambda: float(0))
+        for token, document_term_default_dict in self.postings.token_to_doc_counts.items():
+            df = len(document_term_default_dict.keys())
+            if df != 0:
+                token_idf[token] = log((docNum-df+0.5) / (df+0.5),2)
+
+
+        # the score of each doc
+        for token, query_term_frequency in query.items():
+            for doc, doc_term_frequency in self.postings.token_to_doc_counts[token].items():
+                doc_to_score[doc] += token_idf[token] * doc_term_frequency * (k1+1) \
+                                     / (doc_term_frequency + k1 * (1-b+b*self.doc_to_norm[doc]/avgdl))

@@ -41,75 +41,117 @@ measure depending on our demand.
 
 
 \textbf{First setting}:\\
-PorterStemmer (Default), PunktSentenceTokenizer\\
+PorterStemmer (Default), WordPunctTokenizer\\
 Scores:\\
-Mean Average Precision: 0.7524007936507937\\
-R-Precision: 0.6950000000000001\\
-Reciprocal rank (chosen): 0.9\\
-Precision at 5: 0.6\\
-Precision at 10: 0.42000000000000004\\
-Precision at 15: 0.27999999999999997\\
+Mean Average Precision: 0.28525094870140955\\
+R-Precision: 0.32620444072056975\\
+Reciprocal rank (chosen): 0.56226318484383\\
+Precision at 5: 0.3096774193548387\\
+Precision at 10: 0.21612903225806449\\
+Precision at 15: 0.1440860215053764\\
 
-Firstly, we only change the Tokenizer to PunktSentenceTokenizer, which tokenize 
-text by using punctuations(';', ':', ',', '.', '!', '?'). Compared to the 
+Firstly, we only change the Tokenizer to WordPunctTokenizer, which tokenize 
+texts by using punctuations(';', ':', ',', '.', '!', '?'). Compared to the 
 default setting in Q2, we find that Reciprocal rank of the first setting is 
-much better than the default one in Q2. The main reason is that 
-WhitespaceTokenizer divides text by space, tab and newline, which is less 
-informative than punctuations because government documents usually have more 
-punctuations than whitespaces and punctuations are designed for spliting meanings. 
+ better than the default one in Q2. The main reason for this performance 
+is that splitting by punctuations is more powerful than only splitting by newline.
+Rarely will people write documents without using punctuations.
+
+% \textbf{First setting}:\\
+% PorterStemmer (Default), PunktSentenceTokenizer\\
+% Scores:\\
+% Mean Average Precision: 0.7524007936507937\\
+% R-Precision: 0.6950000000000001\\
+% Reciprocal rank (chosen): 0.9\\
+% Precision at 5: 0.6\\
+% Precision at 10: 0.42000000000000004\\
+% Precision at 15: 0.27999999999999997\\
+
+% Firstly, we only change the Tokenizer to PunktSentenceTokenizer, which tokenize 
+% text by using punctuations(';', ':', ',', '.', '!', '?'). Compared to the 
+% default setting in Q2, we find that Reciprocal rank of the first setting is 
+% much better than the default one in Q2. The main reason is that 
+% WhitespaceTokenizer divides text by space, tab and newline, which is less 
+% informative than punctuations because government documents usually have more 
+% punctuations than whitespaces and punctuations are designed for spliting meanings. 
+
 
 \noindent
 \textbf{Second setting}:\\
-LancasterStemmer, PunktSentenceTokenizer:\\
+PorterStemmer, TreebankWordTokenizer:\\
 Scores:\\
-Mean Average Precision: 0.5935119047619046\\
-R-Precision: 0.575\\
-Reciprocal rank (chosen): 0.7\\
-Precision at 5: 0.4800000000000001\\
-Precision at 10: 0.32\\
-Precision at 15: 0.21333333333333337\\
+Mean Average Precision: 0.29262703852584804\\
+R-Precision: 0.3112445887445887\\
+Reciprocal rank (chosen): 0.5533333333333333\\
+Precision at 5: 0.32\\
+Precision at 10: 0.22333333333333333\\
+Precision at 15: 0.1488888888888889\\
 
-In the second setting, both the Tokenizer and the stemmer have been changed. We find that 
-the Reciprocal rank of the second setting is worse than the first one when we 
-change default PorterStemmer to LancasterStemmer. LancasterStemmer is based on 
-Lancaster (Paice/Husk) stemming algorithm, which performs worse than PorterStemmer 
-which is based on the Porter stemming algorithm. LancasterStemmer is less effective 
-than PorterStemmer because LancasterStemmer only converts suffixes.
+In the second setting, the tokenizer has been changed to TreebankWordTokenizer. 
+In this case, the performance(Reciprocal rank) of the second setting is slightly 
+better than the default one. The main reason is that TreebankWordTokenizer splits 
+text by not only Whitespaces, but also punctuations, standard 
+contractions, and treating most punctuation characters as separate tokens. 
+
+
+% \noindent
+% \textbf{Second setting}:\\
+% LancasterStemmer, PunktSentenceTokenizer:\\
+% Scores:\\
+% Mean Average Precision: 0.5935119047619046\\
+% R-Precision: 0.575\\
+% Reciprocal rank (chosen): 0.7\\
+% Precision at 5: 0.4800000000000001\\
+% Precision at 10: 0.32\\
+% Precision at 15: 0.21333333333333337\\
+
+% In the second setting, both the Tokenizer and the stemmer have been changed. We find that 
+% the Reciprocal rank of the second setting is worse than the first one when we 
+% change default PorterStemmer to LancasterStemmer. LancasterStemmer is based on 
+% Lancaster (Paice/Husk) stemming algorithm, which performs worse than PorterStemmer 
+% which is based on the Porter stemming algorithm. LancasterStemmer is less effective 
+% than PorterStemmer because LancasterStemmer only converts suffixes.
 
 
 \noindent
 \textbf{Third setting}:\\
 SnowballStemmer with language set to English, WhitespaceTokenizer(Default)\\
 Scores:\\
-Mean Average Precision: 0.22738894328775283\\
-R-Precision: 0.24219696969696972\\
-Reciprocal rank (chosen): 0.5253703703703703\\
-Precision at 5: 0.25333333333333335\\
-Precision at 10: 0.1833333333333333\\
-Precision at 15: 0.12222222222222225\\
+Mean Average Precision: 0.28767069934034223\\
+R-Precision: 0.3176334776334776\\
+Reciprocal rank (chosen): 0.5527777777777777\\
+Precision at 5: 0.3266666666666666\\
+Precision at 10: 0.21999999999999995\\
+Precision at 15: 0.14666666666666667\\
 
 In the third setting, we use SnowballStemmer in English and default tokenizer. 
-And we find the Reciprocal rank is relatively the same as the default setting. 
-SnowballStemmer is designed by the suffix stripping algorithm, which is similar 
-to PorterStemmer.
+And we find the Reciprocal rank is slightly higher than the default setting. 
+SnowballStemmer is designed by the suffix stripping algorithm.\\
 
 \noindent
 \textbf{Forth setting}:\\
 ISRIStemmer, WhitespaceTokenizer(Default)\\
 Scores:\\
-Mean Average Precision: 0.09838395863395863\\
-R-Precision: 0.15106060606060603\\
-Reciprocal rank (chosen): 0.21888888888888888\\
-Precision at 5: 0.14666666666666667\\
-Precision at 10: 0.10666666666666666\\
-Precision at 15: 0.07111111111111111\\
+Mean Average Precision: 0.15132227032227033\\
+R-Precision: 0.1723953823953824\\
+Reciprocal rank (chosen): 0.4384656084656084\\
+Precision at 5: 0.19333333333333336\\
+Precision at 10: 0.14000000000000004\\
+Precision at 15: 0.09333333333333335\\
 
 In the forth setting, we use ISRIStemmer and default tokenizer. ISRIStemmer is
 based on Arabic Stemming without a root dictionary Algorithm and the Reciprocal 
 rank of this setting is much worse than the default setting. The main reason is 
 that ISRIStemmer sometimes converts words to wrong word stems that changes the 
-vector form of the document.
+vector form of the document.\\
 
 \section*{Q4}
-
+In this section I firstly use:
+PorterStemmer (default), WhitespaceTokenizer (Default), BM25 similarity.
+Mean Average Precision: 0.393447515117158\\
+R-Precision: 0.40248917748917745\\
+Reciprocal rank (chosen): 0.6072222222222222\\
+Precision at 5: 0.4266666666666667\\
+Precision at 10: 0.27666666666666667\\
+Precision at 15: 0.1844444444444444\\
 \end{document}
