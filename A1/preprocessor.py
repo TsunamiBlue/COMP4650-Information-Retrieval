@@ -9,10 +9,10 @@ class Preprocessor:
         # stemming algorithm.
         self.stem = lru_cache(maxsize=10000)(nltk.stem.PorterStemmer().stem)
         # self.tokenize = nltk.tokenize.WhitespaceTokenizer().tokenize
-        self.tokenize = nltk.tokenize.TreebankWordTokenizer().tokenize
+        self.tokenize = nltk.tokenize.WordPunctTokenizer().tokenize
 
     def __call__(self, text):
         # tokens = nltk.tokenize.WhitespaceTokenizer().tokenize(text)
-        tokens = nltk.tokenize.TreebankWordTokenizer().tokenize(text)
+        tokens = nltk.tokenize.WordPunctTokenizer().tokenize(text)
         tokens = [self.stem(token) for token in tokens]
         return tokens

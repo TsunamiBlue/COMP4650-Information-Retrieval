@@ -39,7 +39,7 @@ case it's a precision-critical task and there is only one relevant document in
 the system. As a result, the Reciprocal rank should be the most important 
 measure depending on our demand.
 
-
+\section*{Q4}
 \textbf{First setting}:\\
 PorterStemmer (Default), WordPunctTokenizer\\
 Scores:\\
@@ -91,7 +91,8 @@ In the second setting, the tokenizer has been changed to TreebankWordTokenizer.
 In this case, the performance(Reciprocal rank) of the second setting is slightly 
 better than the default one. The main reason is that TreebankWordTokenizer splits 
 text by not only Whitespaces, but also punctuations, standard 
-contractions, and treating most punctuation characters as separate tokens. 
+contractions, and treating most punctuation characters as separate tokens. Then 
+this setting is more powerful than the Q2 one. 
 
 
 % \noindent
@@ -126,7 +127,8 @@ Precision at 15: 0.14666666666666667\\
 
 In the third setting, we use SnowballStemmer in English and default tokenizer. 
 And we find the Reciprocal rank is slightly higher than the default setting. 
-SnowballStemmer is designed by the suffix stripping algorithm.\\
+SnowballStemmer is designed by a suffix stripping algorithm and it assumes 
+the structure of English grammar, which make it powerful.\\
 
 \noindent
 \textbf{Forth setting}:\\
@@ -145,13 +147,26 @@ rank of this setting is much worse than the default setting. The main reason is
 that ISRIStemmer sometimes converts words to wrong word stems that changes the 
 vector form of the document.\\
 
-\section*{Q4}
+\section*{Q5}
 In this section I firstly use:
-PorterStemmer (default), WhitespaceTokenizer (Default), BM25 similarity.
+PorterStemmer (default), WhitespaceTokenizer (Default), BM25 similarity.\\
+Scores:\\
 Mean Average Precision: 0.393447515117158\\
 R-Precision: 0.40248917748917745\\
 Reciprocal rank (chosen): 0.6072222222222222\\
 Precision at 5: 0.4266666666666667\\
 Precision at 10: 0.27666666666666667\\
 Precision at 15: 0.1844444444444444\\
+
+The Best Setting I use is:\\
+PorterStemmer (default), WordPunctTokenizer, BM25 similarity.\\
+Scores:\\
+Mean Average Precision: 0.46072354137158283\\
+R-Precision: 0.4774158637061863\\
+Reciprocal rank (chosen): 0.6155913978494625\\
+Precision at 5: 0.4838709677419356\\
+Precision at 10: 0.329032258064516\\
+Precision at 15: 0.21935483870967745\\
+Since these stemmer, tokenizer and similarity measure are all the best under 
+variable control, and the Reciprocal rank is higher than any settings above.
 \end{document}
